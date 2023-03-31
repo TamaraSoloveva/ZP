@@ -19,13 +19,13 @@ Prg::Prg()
 void Prg::countZPslot() {
     if ( !myUi->lineEdit_2->text().isEmpty() && !myUi->lineEdit->text().isEmpty() && !myUi->lineEdit_3->text().isEmpty()) {
         int ttlZP = myUi->lineEdit_2->text().toInt();
-        int wrkDaysBefore = myUi->lineEdit->text().toInt();
-        int wrkDaysAfter = myUi->lineEdit_3->text().toInt();
-        int ttlWrkDays = wrkDaysBefore + wrkDaysAfter;
-        double zpPerDay = (double)ttlZP / (double)ttlWrkDays;
+        int wrkHoursBefore = myUi->lineEdit_6->text().toInt();
+        int wrkHoursAfter = myUi->lineEdit_7->text().toInt();
+        int ttlWrkHours = wrkHoursBefore + wrkHoursAfter;
+        double zpPerHour = (double)ttlZP / (double)ttlWrkHours;
 
-        myUi->lineEdit_4->setText( QString::number(wrkDaysBefore * zpPerDay  * 0.87 ));
-        myUi->lineEdit_5->setText( QString::number(wrkDaysAfter * zpPerDay  * 0.87 ));
+        myUi->lineEdit_4->setText( QString::number(wrkHoursBefore * zpPerHour  * 0.87 ));
+        myUi->lineEdit_5->setText( QString::number(wrkHoursAfter * zpPerHour  * 0.87 ));
     }
 }
 
@@ -38,16 +38,18 @@ void Prg::slotParseStr( QString line ) {
         pos += rx.matchedLength();
     }
     myUi->lineEdit->setText(list.at(0));
-    myUi->lineEdit_3->setText(list.at(1));
+    myUi->lineEdit_6->setText(list.at(1));
+    myUi->lineEdit_3->setText(list.at(2));
+    myUi->lineEdit_7->setText(list.at(3));
 }
 
 
 
 
 void Prg::slotGetDays(int index) {
-    QString flPath = QDir::currentPath() + "/days.txt";
+    QString flPath = QDir::currentPath() + "/hours.txt";
     if ( !QFile::exists(flPath)) {
-         QMessageBox::warning(this, tr("Внимание"), tr("Файл days.txt не обнаружен"));
+         QMessageBox::warning(this, tr("Внимание"), tr("Файл hours.txt не обнаружен"));
          return;
     }
     QFile fl(flPath);
